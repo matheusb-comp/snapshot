@@ -13,5 +13,17 @@
     "moment": "^2.20.1",
     "pg": "^7.4.1",
     "stellar-sdk": "^0.8.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheusb-comp/snapshot.git"
+  },
+  "keywords": [
+    "stellar"
+  ],
+  "bugs": {
+    "url": "https://github.com/matheusb-comp/snapshot/issues"
+  },
+  "homepage": "https://github.com/matheusb-comp/snapshot#readme"
 }
