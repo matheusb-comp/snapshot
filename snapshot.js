@@ -132,7 +132,7 @@ function main() {
 
 // Handle the Operation event from the Event Source
 function handleOperation(op) {
-	console.log('handleOp - op.type: ' + op.type + ' PT: ' + op.paging_token);
+	//console.log('handleOp - op.type: ' + op.type + ' PT: ' + op.paging_token);
 	// In case the stream was already stopped, ignore
 	if (stopStream == undefined) return;
 	
@@ -196,7 +196,7 @@ function promiseAmount(effects){
 		for (let i in records) {
 			let ef = records[i];
 			
-			if (ef.type_i == 2 && ef.account == POOL_ID){
+			if (ef.type_i == 2 && ef.account == poolID){
 				console.log(ef.amount + ' of XLM credited to ' + poolID);
 				// Save the inflation received in stroops
 				amount = Number(ef.amount) * 10000000;
