@@ -1,7 +1,24 @@
 # Snapshot
 Node.js script to stream Stellar Operations until an inflation operation is detected, then get the list of voters and data pairs from the supplied stellar-core database and save it as a JSON file.
 
-## Generated file example:
+## Help
+```
+  Usage: snapshot.js <flags>
+
+  Flags:
+  	--test, -t:	Run the script on testnet, if false, run on livenet (default: false)
+  	--local, -l:	Connect to a local horizon instance, if false, use SDF's (default: false)
+  	--database, -d:	PostgreSQL connection string (default: "postgresql://stellar@localhost:5432/core")
+  		You can check more info here: https://www.postgresql.org/docs/current/static/libpq-connect.html#id-1.7.3.8.3.6
+  	--horizon, -h:	Horizon URL to connect if the "local" flag is set (default: "http://localhost:8000")
+  	--pool, -p:	Public address ID of the pool (default: "GCCD6AJOYZCUAQLX32ZJF2MKFFAUJ53PVCFQI3RHWKL3V47QYE2BNAUT")
+  	--key, -k:	Format of key for a voter data pair to mark a donation (default: "lumenaut.net donation%")
+
+  Example:
+  	snapshot.js -t true -l true -d postgresql://stellar@localhost:5432/testcore -h http://localhost:8001 -k "lumenaut.net donation%" -p GCFXD4OBX4TZ5GGBWIXLIJHTU2Z6OWVPYYU44QSKCCU7P2RGFOOHTEST
+```
+
+### Generated file example
 ```
 {
   "inflationdest": "GCFXD4OBX4TZ5GGBWIXLIJHTU2Z6OWVPYYU44QSKCCU7P2RGFOOHTEST",
