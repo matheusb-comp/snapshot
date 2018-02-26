@@ -1,5 +1,7 @@
 // Library to communicate with a Horizon server
 var StellarSdk = require('stellar-sdk');
+// Integer precision > 16 digits with JSON
+var JSONbig = require('json-bigint');
 // Date and time manipulator (ISO 6801 UTC)
 var Moment = require('moment');
 // Node.js File System interaction module
@@ -172,13 +174,13 @@ function handleOperation(op) {
 			// Everything ok, log and start writing the file
 			console.log(v[0] + ' voters updated');
 			console.log(v[1] + ' stroops received');
-			return promiseWrite('voters.json', JSON.stringify(snapshot(), null, 2))
+			return promiseWrite('voters.json', JSONbig.stringify(snapshot(), null, 2))
 				.then((res) => console.log(res));
 		})
 		.catch((e) => {
 			// Something went wrong, dump whatever we have
 			console.log('### VOTERS MAP CONSOLE DUMP ###');
-			console.log(JSON.stringify(snapshot(), null, 2));
+			console.log(JSONbig.stringify(snapshot(), null, 2));
 			kill(e);
 		});
 }
@@ -197,9 +199,9 @@ function promiseAmount(effects){
 			let ef = records[i];
 			
 			if (ef.type_i == 2 && ef.account == poolID){
+				// Save the inflation received in stroops (just remove '.')
+				amount = JSONbig.parse(ef.amount.replace('.', ''));
 				console.log(ef.amount + ' of XLM credited to ' + poolID);
-				// Save the inflation received in stroops
-				amount = Number(ef.amount) * 10000000;
 				resolve(amount);
 			}
 		}
@@ -216,10 +218,10 @@ function promiseVotersDB(res) {
 		for (let i in res.rows) {
 			let row = res.rows[i];
 			// Update the pool's balance (and allow it to be included as a voter)
-			if (row['accountid'] == poolID) balance = Number(row['balance']);
+			if (row['accountid'] == poolID) balance = JSONbig.parse(row['balance']);
 			
 			// Update the voter's balance
-			voters.set(row['accountid'], Number(row['balance']));
+			voters.set(row['accountid'], JSONbig.parse(row['balance']));
 			
 			// Update the voter's data, if any
 			if (row['datavalue'] !== null) {
@@ -245,7 +247,7 @@ function promiseVotersFed(httpBody) {
 		// Reject if can't parse or no 'entries' property
 		let res, entries;
 		try {
-			res = JSON.parse(httpBody);
+			res = JSONbig.parse(httpBody);
 			if (res.hasOwnProperty('entries')) entries = res['entries'];
 			else reject('No "entries" property in the received http body');
 		} catch (e) {

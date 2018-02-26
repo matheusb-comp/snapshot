@@ -9,6 +9,7 @@
   "author": "matheusb-comp",
   "license": "ISC",
   "dependencies": {
+    "json-bigint": "^0.2.3",
     "meow": "^4.0.0",
     "moment": "^2.20.1",
     "pg": "^7.4.1",
